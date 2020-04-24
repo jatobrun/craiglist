@@ -1,0 +1,120 @@
+{%extends 'base1.html'%} {% block body1 %}
+<div class="container">
+    <div class="media ml-1">
+        <img class=" rounded-circle account-img" src="{{ url_for('static', filename= 'perfil-pic/'+session['image']) }}">
+        <div class="media-body align-self-center">
+            <h3>{{session['user']}}</h3>
+            <p class="text-secondary ">{{session['email']}}</p>
+        </div>
+    </div>
+    <div class=" animated fadeInUp ">
+        <form method="POST" action="" enctype='multipart/form-data'>
+            {{ form.hidden_tag() }}
+            <fieldset class="form-group">
+                <div class="form-group">
+                    {{ form.picture.label() }}
+                    {{ form.picture(class='form-control-file') }}
+
+                    {% if form.picture.errors %}
+                    {% for error in form.picture.errors %}
+                    <span class='text-danger'>{{ error }}</span></br>
+                    {% endfor %}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.username.label(class="form-control-label") }} {% if
+              form.username.errors %} {{ form.username(class="form-control
+              form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.username.errors %}
+                        <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    {% else %} {{ form.username(class="form-control form-control-lg") }} {%
+              endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.email.label(class="form-control-label") }} {% if
+              form.email.errors %} {{ form.email(class="form-control form-control-lg
+              is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.email.errors %}
+                        <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    {% else %} {{ form.email(class="form-control form-control-lg") }} {%
+              endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.nombre.label(class="form-control-label") }} {% if
+                    form.nombre.errors %} {{
+                    form.nombre(class="form-control form-control-lg is-invalid")
+                    }}
+                    <div class="invalid-feedback">
+                      {% for error in form.nombre.errors %}
+                      <span>{{ error }}</span>
+                      {% endfor %}
+                    </div>
+                    {% else %} {{ form.nombre(class="form-control
+                    form-control-lg") }} {% endif %}
+                  </div>
+                  <div class="form-group">
+                    {{ form.apellido.label(class="form-control-label") }} {% if
+                    form.apellido.errors %} {{
+                    form.apellido(class="form-control form-control-lg is-invalid")
+                    }}
+                    <div class="invalid-feedback">
+                      {% for error in form.apellido.errors %}
+                      <span>{{ error }}</span>
+                      {% endfor %}
+                    </div>
+                    {% else %} {{ form.apellido(class="form-control
+                    form-control-lg") }} {% endif %}
+                  </div>
+                  <div class="form-group">
+                    {{ form.habilidades.label(class="form-control-label") }} {% if
+                    form.habilidades.errors %} {{
+                    form.habilidades(class="form-control form-control-lg is-invalid")
+                    }}
+                    <div class="invalid-feedback">
+                      {% for error in form.habilidades.errors %}
+                      <span>{{ error }}</span>
+                      {% endfor %}
+                    </div>
+                    {% else %} {{ form.habilidades(class="form-control
+                    form-control-lg") }} {% endif %}
+                  </div>
+                  <div class="form-group">
+                    {{ form.educacion.label(class="form-control-label") }} {% if
+                    form.educacion.errors %} {{
+                    form.educacion(class="form-control form-control-lg is-invalid")
+                    }}
+                    <div class="invalid-feedback">
+                      {% for error in form.educacion.errors %}
+                      <span>{{ error }}</span>
+                      {% endfor %}
+                    </div>
+                    {% else %} {{ form.educacion(class="form-control
+                    form-control-lg") }} {% endif %}
+                  </div>
+                  <div class="form-group">
+                    {{ form.experiencia.label(class="form-control-label") }} {% if
+                    form.experiencia.errors %} {{
+                    form.experiencia(class="form-control form-control-lg is-invalid")
+                    }}
+                    <div class="invalid-feedback">
+                      {% for error in form.experiencia.errors %}
+                      <span>{{ error }}</span>
+                      {% endfor %}
+                    </div>
+                    {% else %} {{ form.experiencia(class="form-control
+                    form-control-lg") }} {% endif %}
+                  </div>
+            </fieldset>
+            <div class="form-group">
+                {{ form.submit(class="btn btn-outline-info") }}
+            </div>
+        </form>
+    </div>
+</div>
+{%endblock%}

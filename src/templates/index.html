@@ -1,0 +1,92 @@
+{% extends 'base1.html' %}
+{% block body1 %}
+<div class = 'container'>
+    <div class="animated fadeInUp p-4">
+      <form method="POST" , action="", enctype='multipart/form-data'>
+        {{form.hidden_tag()}}
+        <fieldset class="form-group">
+          <legend class="border-bottom mb-4">Cuentanos tu dia</legend>
+          <div class="form-group">
+            {{form.titulo.label(class="form-control-label")}} {% if
+            form.titulo.errors %} {{ form.titulo(class="form-control
+            form-control-lg is-invalid") }}
+            <div class="invalid-feedback">
+              {% for error in form.titulo.errors %}
+              <span>{{ error }}</span>
+              {% endfor %}
+            </div>
+            {% else %} {{ form.titulo(class="form-control form-control-lg") }} {%
+            endif %}
+          </div>
+          <div class="form-group">
+            {{form.categoria.label(class="form-control-label")}} {% if
+            form.categoria.errors %} {{ form.categoria(class="form-control
+            form-control-lg is-invalid") }}
+            <div class="invalid-feedback">
+              {% for error in form.categoria.errors %}
+              <span>{{ error }}</span>
+              {% endfor %}
+            </div>
+            {% else %} {{ form.categoria(class="form-control form-control-lg") }} {%
+            endif %}
+          </div>
+          <div class="form-group">
+            {{form.contenido.label(class="form-control-label")}} {% if
+            form.contenido.errors %} {{ form.contenido(class="form-control
+            form-control-lg is-invalid") }}
+            <div class="invalid-feedback">
+              {% for error in form.contenido.errors %}
+              <span>{{ error }}</span>
+              {% endfor %}
+            </div>
+            {% else %} {{ form.contenido(class="form-control form-control-lg") }} {%
+            endif %}
+          </div>
+          <div class="form-group">
+            {{form.archivo.label(class="form-control-label")}} {% if
+            form.archivo.errors %} {{ form.archivo(class="form-control
+            form-control-lg is-invalid") }}
+            <div class="invalid-feedback">
+              {% for error in form.archivo.errors %}
+              <span>{{ error }}</span>
+              {% endfor %}
+            </div>
+            {% else %} {{ form.archivo(class="form-control form-control-lg") }} {%
+            endif %}
+          </div>
+        </fieldset>
+        <div class="form-group">
+          {{form.submit(class = "btn btn-outline-info")}}
+        </div>
+      </form>
+    </div>
+   </div>
+   {% if vacio_publicaciones %}
+   <h2>No Hay Publicaciones Disponibles Ingresa una </h2>
+   {%else%}
+   {% for publicacion in publicaciones %}
+   <article class="media content-section animated bounceInDown fast">
+
+    <div class="media-body">
+        <div class="article-metadata">
+            <h2>{{publicacion.titulo}}</h2>
+            <img class=" rounded-circle account-img" src="{{ url_for('static', filename= 'perfil-pic/'+session['image']) }}">
+            Publicado por: <a class="mr-2" href="{{ url_for('perfil', id = publicacion.creador) }}">{{publicacion.creador}}</a></br>
+            Fecha: <p class="mr-2" href="#">{{ publicacion.fecha }}</p>
+            <div class="article-metadata">
+                Contenido: <p class="mr-2" href="#">{{publicacion.contenido}}</p>
+            </div>
+            
+            <div class="article-metadata">
+                Archivos: 
+                {% for archivo in publicacion.archivos %}
+                <a href="{{url_for('static', filename='publicacion-pic/'+archivo)}}" target="_blank" class ='btn btn-info'>Ver</a>
+                
+            </div>
+        </div>
+    </div>
+</article>
+    {% endfor %}
+    {% endfor %}
+    {% endif %}
+{% endblock %}

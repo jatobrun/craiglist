@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  {% block head %}
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+  integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css?family=Changa&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+  {%if titulo%}
+  <title>{{titulo}}</title>
+  {%else%}
+  <title>TinoCoworking</title>
+  {%endif%} {%endblock%}
+</head>
+
+<body>
+  <header class="site-header">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+      <div class = 'container'>
+        <a class="navbar-brand" href="#">TinoCoworking</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="{{url_for('inicio')}}">Inicio</a>
+              </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{url_for('sobre_nosotros')}}">Sobre Nosotros</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{url_for('iniciar_sesion')}}">Inicia Sesion</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      
+    </nav>
+  </header>
+  <main style="padding: 0px!important;" role="main" class="container">
+    <div class="row">
+      <div class="col-md-8">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {%if messages%}
+        {% for category, message in messages%}
+        <div class="alert alert-{{ category }}">
+          {{message}}
+        </div>
+        {%endfor%}
+        {% endif %}
+        {% endwith %}
+        {% block body %}{% endblock %}
+      </div>
+      {% if control_center %}
+      <div class="col-md-4">
+        <nav class="sticky-top">
+          <div class=" content-section">
+            <h3 class="mb-3" align='center'>PANEL DE CONTROL</h3>
+            <ul class="list-group text-center">
+              <li class="list-group-item">
+                <a class="nav-item nav-link" href="{{url_for('perfil')}}">Perfil</a>
+              </li>
+              <li class="list-group-item">
+                <a class="nav-item nav-link navbar-toggler collapsed" href="#" role="button" data-toggle="collapse"
+                  data-target="#estudios-nav" aria-controls="navbarToggle" aria-label="Toggle navigation"
+                  aria-expanded="false" style="font-size: 16px!important; padding: 8px 16px!important;">
+                  Estudios
+                </a>
+                <div id="estudios-nav" class="collapse navbar-collapse">
+                  <div class="dropdown-divider"></div>
+                  <a class="list-group-item-light" href="{{url_for('historial')}}">Estudios</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="list-group-item-light" href="{{url_for('new')}}">Nuevo Estudio</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="list-group-item-light" href="{{url_for('estudios_compartidos')}}">Estudios Compartidos</a>
+                </div>
+              </li>
+              <li class="list-group-item">
+                <a class="nav-item nav-link navbar-toggler collapsed" href="#" role="button" data-toggle="collapse"
+                  data-target="#empresas-nav" aria-controls="navbarToggle" aria-label="Toggle navigation"
+                  aria-expanded="false" style="font-size: 16px!important; padding: 8px 16px!important;">
+                  Empresas
+                </a>
+                <div id="empresas-nav" class="collapse navbar-collapse">
+                  <div class="dropdown-divider"></div>
+                  <a class="list-group-item-light" href="{{url_for('empresas')}}">Empresas</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="list-group-item-light" href="{{url_for('new_empresa')}}">Nueva
+                    Empresa</a>
+                </div>
+              </li>
+              <li class="list-group-item">
+                <a class="nav-item nav-link navbar-toggler collapsed" href="#" role="button" data-toggle="collapse"
+                  data-target="#examenes-nav" aria-controls="navbarToggle" aria-label="Toggle navigation"
+                  aria-expanded="false" style="font-size: 16px!important; padding: 8px 16px!important;">
+                  Exámenes
+                </a>
+                <div id="examenes-nav" class="collapse navbar-collapse">
+                  <div class="dropdown-divider"></div>
+                  <a class="list-group-item-light" href="{{url_for('new_examen')}}">Exámenes</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="list-group-item-light" href="{{url_for('new_paquete')}}">Nuevo
+                    Paquete</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="list-group-item-light" href="{{url_for('paquetes')}}">Paquete de
+                    Examenes</a>
+                </div>
+              </li>
+              <li class="list-group-item list-group-item-light">
+                <a class='nav-item nav-link' href="{{ url_for('estadisticas', user=session['user']) }}">Estadísticas</a>
+              </li>
+              <li class="list-group-item list-group-item-light">
+                <a class="nav-item nav-link" href="{{url_for('index')}}">Notificaciones</a>
+              </li>
+              <li class="list-group-item list-group-item-light"><a class="nav-item nav-link"
+                  href="{{url_for('colaboradores')}}">Áreas o Colaboradores</a>
+              </li>
+              <!-- <li class="list-group-item list-group-item-light"><a class="nav-item nav-link"
+                    href="{{url_for('consulta')}}">Consulta Virtual</a></li>
+                  <li class="list-group-item list-group-item-light"><a class="nav-item nav-link"
+             
+                    href="{{url_for('ia')}}">IA</a></li> -->
+            </ul>
+          </div>
+        </nav>
+      </div>
+    </div>
+    {% endif %}
+    </div>
+  </main>
+  {% block script %}{% endblock %}
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>

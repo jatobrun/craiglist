@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  {% block head %}
+  <!-- Bootstrap CSS -->
+  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> -->
+    <link rel = 'stylesheet' href='https://bootswatch.com/4/journal/bootstrap.min.css'>
+  <!-- CSS Stylesheet-->
+  <link href="https://fonts.googleapis.com/css?family=Changa&display=swap" rel="stylesheet">
+  <!-- CSS ANIMATE-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+  {%if titulo %}
+  <title>{{titulo}}</title>
+  {%else%}
+  <title>tinoCoworking</title>
+  {%endif%} {%endblock%}
+</head>
+
+<body>
+  <header class="site-header">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+      <div class = 'container'>
+        <a class="navbar-brand" href="/">TinoCoworking</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="{{url_for('sobre_nosotros')}}">Sobre Nosotros</a>
+            </li>
+            {% if 'user' in session %}
+            <li class="nav-item">
+              <a class="nav-link" href="{{url_for('index')}}">Inicio</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{url_for('logout')}}">Salir</a>
+            </li>
+            {% else %}
+            <li class="nav-item">
+              <a class="nav-link" href="{{url_for('iniciar_sesion')}}">Inicia Sesion</a>
+            </li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+      
+    </nav>
+  </header>
+  <main role="main" class="container">
+    <div class="row justify-content-center">
+
+      <div class="col col-lg-9">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {%if messages%}
+        {% for category, message in messages%}
+        <div class="alert alert-{{ category }}">
+          {{message}}
+        </div>
+
+        {%endfor%}
+        {% endif %}
+        {% endwith %}
+        {% block body %}{% endblock %}
+      </div>
+      <div class="row">
+        <div class="col-md-8">
+          {% block body1 %}{% endblock %}
+        </div>
+        {% if cc %}
+        <div class="col-md-4">
+          <nav class="sticky-top">
+            <div class=" content-section">
+              <h3 class="mb-3" align='center'>PANEL DE CONTROL</h3>
+              <ul class="list-group text-center">
+                <li class="list-group-item">
+                  <a class="nav-item nav-link" href="{{url_for('perfil', id= session['user'])}}">Perfil</a>
+                </li>
+                <li class="list-group-item list-group-item-light">
+                  <a class='nav-item nav-link' href="{{ url_for('estadisticas')}}">Estadísticas</a>
+                </li>
+                <li class="list-group-item list-group-item-light">
+                  <a class="nav-item nav-link" href="{{url_for('servicios')}}">Servicios</a>
+                </li>
+              </ul>
+            </div>
+          </nav>
+        </div>
+        </div>
+        {% endif %}
+    </div>
+  </main>
+
+
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+
+</body>
+
+</html>
