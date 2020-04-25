@@ -14,8 +14,9 @@
                         Habilidades: <p class = 'card-text'>{{usuario.habilidades}}</p>
                         Experiencia: <p class = 'card-text'>{{usuario.experiencia}}</p>
                         Educacion: <p class = 'card-text'>{{usuario.educacion}}</p>
-                        <a href="{{url_for('static', filename='cedula-pic/'+usuario['cedula-foto'][0])}}" target="_blank" class ='btn btn-info'>Ver</a>
-                    <a href="{{url_for('static', filename='cedula-pic/'+usuario['cedula-foto'][1])}}" target= '_blank' class ='btn btn-info'>Ver</a>
+                        {% for e in usuario['cedula-foto'] %}
+                        <a href="{{url_for('static', filename='cedula-pic/'+e)}}" target="_blank" class ='btn btn-info'>Ver</a>
+                            {% endfor %}
                         </div>
                         
                             <div class="article-metadata">
