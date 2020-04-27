@@ -1,7 +1,35 @@
 {% extends 'base1.html' %}
 {% block body %}
-    <div class ='container'>
-        <h1>Servicios</h1>
+{% if vacio_empleados %}
+   <h2>No Hay Personas Disponibles </h2>
+   {%else%}
+   <div style = 'display: flex; justify-content: space-between; flex-wrap: wrap;'>
+    {% for empleado in empleados %}
+    <div style = 'margin: 10px;'>
+     <div class="card text-white bg-primary mb-3" style="max-width: 20rem;">
+         <div class="card-header">
+             <div class = 'publicacion'>
+                 <div style='margin-right: 10px;'>
+                     <img class=" rounded-circle account-img" src="{{ url_for('static', filename= 'perfil-pic/'+publicacion['foto']) }}">
+                 </div>
+                 <div>
+                 Publicado por: <a class="mr-2" href="{{ url_for('perfil', id = publicacion.creador) }}">{{publicacion.creador}}</a></br>
+                 Fecha: <a class="mr-2" href="#">{{ publicacion.fecha }}</a><br>
+                 Contacto: <a class="mr-2" href="#">{{publicacion.telefono}}</a>
+                 <a href= '#'>{{publicacion.email}}</a>
+                 </div>
+             </div>
+             
+         </div>
+         <div class="card-body">
+           <h4 class="card-title">Contenido</h4>
+           <p class="card-text">{{publicacion.contenido}}</p>
+         </div>
+       </div>
     </div>
-    
+ 
+     {% endfor %}
+   </div>
+   
+    {% endif %}
 {% endblock %}

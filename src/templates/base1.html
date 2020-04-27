@@ -9,8 +9,9 @@
   <!-- Bootstrap CSS -->
   <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
     integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> -->
-    <link rel = 'stylesheet' href='https://bootswatch.com/4/journal/bootstrap.min.css'>
+    <link rel = 'stylesheet' href='https://bootswatch.com/4/flatly/bootstrap.min.css'>
   <!-- CSS Stylesheet-->
+  <link rel = 'stylesheet' href="{{url_for('static', filename = 'main.css')}}"">
   <link href="https://fonts.googleapis.com/css?family=Changa&display=swap" rel="stylesheet">
   <!-- CSS ANIMATE-->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
@@ -21,29 +22,45 @@
   {%endif%} {%endblock%}
 </head>
 
-<body>
+<body style = 'background-color: #e3edff;'>
   <header class="site-header">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark-color mb-4" style="background-color: #21225c !important;">
       <div class = 'container'>
-        <a class="navbar-brand" href="/">TinoCoworking</a>
+        <a href= '/'><img class="navbar-brand" src = "{{url_for('static', filename = 'Logo.png')}}" style = 'width:125px;'></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-              <a class="nav-link" href="{{url_for('sobre_nosotros')}}">Sobre Nosotros</a>
+              <div>
+                <a class="nav-link" href="{{url_for('sobre_nosotros')}}" style = 'border-right: solid 1px white; margin-right: 15px;
+                padding-right: 15px;'>Nosotros</a>
+              </div>
+              
             </li>
             {% if 'user' in session %}
             <li class="nav-item">
-              <a class="nav-link" href="{{url_for('index')}}">Inicio</a>
+              <a class="nav-link" href="{{url_for('servicios')}}" style = '    border-right: solid 1px white;
+              margin-right: 15px;
+              padding-right: 15px;'>Servicios</a>
+              </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{url_for('index')}}" style = '  border-right: solid 1px white;
+              margin-right: 15px;
+              padding-right: 15px;'>Publicar</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link" href="{{url_for('perfil', id= session['user'])}}" style = '    border-right: solid 1px white;
+            margin-right: 15px;
+            padding-right: 15px;'>Perfil</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="{{url_for('logout')}}">Salir</a>
             </li>
             {% else %}
             <li class="nav-item">
-              <a class="nav-link" href="{{url_for('iniciar_sesion')}}">Inicia Sesion</a>
+              <a class="nav-link btn btn-danger" href="{{url_for('iniciar_sesion')}}">Inicia Sesion</a>
             </li>
             {% endif %}
           </ul>
@@ -53,34 +70,18 @@
     </nav>
   </header>
   <main role="main" class="container">
-    <div class="row justify-content-center">
-
-      <div class="col col-lg-9">
-        {% with messages = get_flashed_messages(with_categories=true) %}
-        {%if messages%}
-        {% for category, message in messages%}
-        <div class="alert alert-{{ category }}">
-          {{message}}
-        </div>
-
-        {%endfor%}
-        {% endif %}
-        {% endwith %}
-        {% block body %}{% endblock %}
-      </div>
+      {% if cc %}
       <div class="row">
         <div class="col-md-8">
           {% block body1 %}{% endblock %}
         </div>
-        {% if cc %}
+        
         <div class="col-md-4">
           <nav class="sticky-top">
             <div class=" content-section">
               <h3 class="mb-3" align='center'>PANEL DE CONTROL</h3>
               <ul class="list-group text-center">
-                <li class="list-group-item">
-                  <a class="nav-item nav-link" href="{{url_for('perfil', id= session['user'])}}">Perfil</a>
-                </li>
+                
                 <li class="list-group-item list-group-item-light">
                   <a class='nav-item nav-link' href="{{ url_for('estadisticas')}}">Estadísticas</a>
                 </li>
@@ -92,6 +93,30 @@
           </nav>
         </div>
         </div>
+        {% else %}
+        <div class="row justify-content-center">
+
+          <div style = 'width: 100%;'>
+            <div style = 'width: 69%; margin-left: 175px;'>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {%if messages%}
+            {% for category, message in messages%}
+            <div class="alert alert-{{ category }}-color" style= 'background-color: #21225c !important;'>
+              {{message}}
+            </div>
+    
+            {%endfor%}
+            {% endif %}
+            {% endwith %}
+            </div>
+            
+            {% block body %}{% endblock %}
+            </div>
+            
+              
+            
+          </div>
+           
         {% endif %}
     </div>
   </main>

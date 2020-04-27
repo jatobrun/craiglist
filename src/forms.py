@@ -22,6 +22,7 @@ class RegistroForm(FlaskForm):
                              DataRequired(message='Ingrese una contraseña porfavor')])
     confirm_password = PasswordField('Confirme Contraseña', validators=[
                                      DataRequired(message='Confirme su contraseña porfavor'), EqualTo('password', message='Las contraseñas ingresadas no son las mismas')])
+    remember = BooleanField(' Aceptar ')
     submit = SubmitField('Ingrese')
 
     def validate_username(self, username):
@@ -83,9 +84,10 @@ class ActualizarPerfilForm(FlaskForm):
 
 class PublicacionForm(FlaskForm):
     titulo = StringField('Titulo', validators=[DataRequired(message = 'Porfavor agregale un titulo a tu publicacion')])
-    archivo = MultipleFileField('Sube una foto de lo que estas haciendo', validators = [FileAllowed(['.jpg', '.jpeg', '.png'])])
-    contenido = TextAreaField('Compartenos que haces', validators=[DataRequired(message = 'Porfavor agregale contenido a tu publicacion')])
+    contenido = TextAreaField('Contenido', validators=[DataRequired(message = 'Porfavor agregale contenido a tu publicacion')])
     categoria = SelectField('Categorias', choices=[('hola', 'hola')])
-    submit = SubmitField('Agregar')
+    telefono = StringField('Telefono', validators = [DataRequired(message = 'Porfavor ingesa un numero de contacto')])
+    email = StringField('Email')
+    submit = SubmitField('Publicar')
 class ServicioForm(FlaskForm):
     pass

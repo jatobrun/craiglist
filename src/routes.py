@@ -9,7 +9,13 @@ from bson import ObjectId
 
 @app.route('/')
 def inicio():
-    return render_template('inicio.html', titulo= 'Inicio')
+    publicaciones = tabla_publicaciones.find().sort('_id', -1)
+    validacion = tabla_publicaciones.find_one()
+    if validacion:
+        vacio_publicaciones = False
+    else: 
+        vacio_publicaciones = True
+    return render_template('inicio.html', titulo= 'Inicio', publicaciones = publicaciones, vacio_publicaciones = vacio_publicaciones)
     
 @app.route('/sobre_nosotros')
 def sobre_nosotros():
@@ -76,9 +82,7 @@ def registro():
                    'cedula': form.cedula.data,
                    'nombre': form.nombre.data,
                    'apellido': form.apellido.data,
-                   'habilidades': form.habilidades.data,
-                   'experiencia': form.experiencia.data,
-                   'educacion': form.educacion.data, 
+                   'terminos': form.remember.data,
                    'cedula-foto': cedula_foto}
                    
         tabla_validacion.insert_one(usuario)
@@ -89,30 +93,22 @@ def registro():
 @app.route('/index', methods = ['GET', 'POST'])
 def index():
     form = PublicacionForm()
-    if form.validate_on_submit():
-        archivos = []
-        for e in form.archivo.data:
-            archivo = save_picture(e, 'publicacion')
-            archivos.append(archivo)
+    if request.method == 'POST':
+        usuario = tabla_usuarios.find_one({'usuario': session['user']})
         publicacion = {
-            'creador': session['user'],
+            'creador': usuario['usuario'],
             'fecha': time.strftime("%d-%m-%Y"),
             'categoria': form.categoria.data,
             'titulo': form.titulo.data,
-            'archivos': archivos,
+            'telefono': form.telefono.data,
+            'email': form.email.data,
             'contenido': form.contenido.data,
+            'foto': usuario['image']
         }
+        flash('Publicacion Publicada exitosamente', 'success')
         tabla_publicaciones.insert_one(publicacion)
-        return redirect(url_for('index'))
-    if request.method == 'GET':
-        publicaciones = tabla_publicaciones.find().sort('_id', -1)
-        validacion = tabla_publicaciones.find_one()
-        if validacion:
-            vacio_publicaciones = False
-        else: 
-            vacio_publicaciones = True
-        return render_template('index.html', titulo= 'Index', form = form, publicaciones= publicaciones, cc= True, vacio_publicaciones = vacio_publicaciones)
-    return render_template('index.html', titulo= 'Index', form = form, publicaciones= publicaciones, cc= True, vacio_publicaciones = vacio_publicaciones)
+        return redirect(url_for('index'))   
+    return render_template('index.html', titulo= 'Index', form = form, cc= False)
 
 @app.route("/logout")
 def logout():
@@ -193,13 +189,13 @@ def perfil(id):
             form.habilidades.data = usuario['habilidades']
             form.experiencia.data = usuario['experiencia']
             form.educacion.data = usuario['educacion']
-        return render_template('perfil.html', titulo = 'Perfil', form = form, cc = True)
+        return render_template('perfil.html', titulo = 'Perfil', form = form, cc = False)
     else:
         return render_template(url_for('inicio_sesion'))
     return render_template('perfil.html', titulo = 'Perfil')
 @app.route('/estadisticas')
 def estadisticas():
-    return render_template('estadisticas.html', titulo = 'Estadisticas', cc = True)
+    return render_template('estadisticas.html', titulo = 'Estadisticas', cc = False)
 
 
 @app.route('/notificaciones')
@@ -208,4 +204,10 @@ def notificaciones():
 
 @app.route('/servicios')
 def servicios():
-    return render_template('servicios.html', titulo='Servicios')
+    empleados = tabla_empleados.find().sort('_id',-1)
+    validacion = tabla_empleados.find_one()
+    if validacion:
+        vacio_empleados = False
+    else: 
+        vacio_empleados = True
+    return render_template('servicios.html', titulo='Servicios', empleados = empleados, vacio_empleados = vacio_empleados)

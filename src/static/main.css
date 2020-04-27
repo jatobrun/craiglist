@@ -1,0 +1,11 @@
+.publicacion {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.alert-success-color {
+    background-color: #21225c !important;
+}
+.bg-dark-color {
+    background-color: #21225c !important;
+}
